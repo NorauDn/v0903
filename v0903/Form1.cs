@@ -18,18 +18,49 @@ namespace v0903
         public Form1()
         {
             InitializeComponent();
+
+            label1.Left = rand.Next(ClientSize.Width - ClientSize.Width);
+            label1.Top = rand.Next(ClientSize.Height - ClientSize.Height);
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            label1.Left = rand.Next(ClientSize.Width - ClientSize.Width);
-            label1.Top = rand.Next(ClientSize.Height - ClientSize.Height);
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             label1.Left += vx;
             label1.Top += vy;
+
+            Point mp = MousePosition;
+            mp = PointToClient(mp);
+
+            if (label1.Left < 0)
+            {
+                vx = Math.Abs(vx);
+            }
+            if (label1.Top < 0)
+            {
+                vy = Math.Abs(vy);
+            }
+            if (label1.Right > ClientSize.Width) 
+            {
+                vx = -Math.Abs(vx);
+            }
+            if (label1.Bottom > ClientSize.Height)
+            {
+                vy = -Math.Abs(vy);
+            }
+
+            if((label1.Left <= mp.X) && 
+                (label1.Right > mp.X)&&
+                (label1.Top<=mp.Y)&&
+                (label1.Bottom>mp.Y))
+            {
+                timer1.Enabled = false;
+                label1.Text = "(/・ω・)/";
+            }
         }
     }
 }
